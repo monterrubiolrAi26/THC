@@ -1,0 +1,1922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Organizational Best Practices — Defining What Intelligence Is in Adapting to AI | Luis Roberto Lopez Monterrubio</title>
+    <meta name="description" content="A high-level executive framework for AI adaptation — bridging the human and technological divide through the SQUIRCLE® methodology. Knowing the right tools, and when not to use AI.">
+    <style>
+        :root {
+            --deep-blue: #1B3A5C;
+            --warm-gray: #C4C4C4;
+            --clear-ice: #F4F6F9;
+            --coral: #F25A42;
+            --coral-dark: #D94A35;
+            --white: #FFFFFF;
+            --shadow-sm: 0 2px 8px rgba(27, 58, 92, 0.06);
+            --shadow-md: 0 8px 30px rgba(27, 58, 92, 0.1);
+            --shadow-lg: 0 20px 60px rgba(27, 58, 92, 0.15);
+            --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            --font-sans: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            --max-width: 1200px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 70px;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--clear-ice);
+            color: var(--deep-blue);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--coral);
+            z-index: 1001;
+            transition: width 0.1s linear;
+        }
+
+        .nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(27, 58, 92, 0.97);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 0 2rem;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(244, 246, 249, 0.08);
+        }
+
+        .nav-container.scrolled {
+            padding: 0 2rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-inner {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .nav-brand {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--white);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-brand .squircle-dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--coral);
+            margin-right: 6px;
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.4); opacity: 0.7; }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--warm-gray);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            letter-spacing: 0.01em;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--white);
+        }
+
+        .nav-cta {
+            background: var(--coral);
+            color: var(--white) !important;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-cta:hover {
+            background: var(--coral-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(242, 90, 66, 0.35);
+            color: var(--white) !important;
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+            padding: 8px;
+            background: none;
+            border: none;
+        }
+
+        .nav-toggle span {
+            width: 24px;
+            height: 2px;
+            background: var(--white);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--deep-blue);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+            padding: 120px 2rem 80px;
+            text-align: center;
+        }
+
+        .hero-bg-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(244, 246, 249, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(244, 246, 249, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            animation: grid-move 20s linear infinite;
+        }
+
+        @keyframes grid-move {
+            0% { background-position: 0 0; }
+            100% { background-position: 60px 60px; }
+        }
+
+        .hero-orb {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(80px);
+            opacity: 0.3;
+            animation: orb-float 8s ease-in-out infinite;
+        }
+
+        .hero-orb.orb-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--coral);
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+
+        .hero-orb.orb-2 {
+            width: 500px;
+            height: 500px;
+            background: #4A90D9;
+            bottom: -200px;
+            right: -150px;
+            animation-delay: 4s;
+        }
+
+        @keyframes orb-float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, -30px) scale(1.1); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(242, 90, 66, 0.15);
+            border: 1px solid rgba(242, 90, 66, 0.4);
+            color: var(--coral);
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            animation: fade-in-up 0.8s ease-out 0.2s both;
+        }
+
+        .hero-title {
+            font-size: clamp(2.2rem, 5.5vw, 4rem);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+            animation: fade-in-up 0.8s ease-out 0.4s both;
+        }
+
+        .hero-title .highlight {
+            color: var(--coral);
+            position: relative;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+            color: var(--warm-gray);
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            font-weight: 400;
+            line-height: 1.6;
+            animation: fade-in-up 0.8s ease-out 0.6s both;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fade-in-up 0.8s ease-out 0.8s both;
+        }
+
+        .hero-cta-primary {
+            background: var(--coral);
+            color: var(--white);
+            padding: 1rem 2.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            letter-spacing: 0.01em;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hero-cta-primary:hover {
+            background: var(--coral-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(242, 90, 66, 0.4);
+        }
+
+        .hero-cta-secondary {
+            background: transparent;
+            color: var(--white);
+            padding: 1rem 2.2rem;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(244, 246, 249, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hero-cta-secondary:hover {
+            border-color: var(--white);
+            background: rgba(244, 246, 249, 0.08);
+        }
+
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .squircle-hero-svg {
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 2rem;
+            animation: fade-in-up 0.8s ease-out 0.3s both;
+        }
+
+        .squircle-hero-svg .square-path {
+            fill: none;
+            stroke: rgba(244, 246, 249, 0.5);
+            stroke-width: 2;
+            stroke-dasharray: 600;
+            stroke-dashoffset: 600;
+            animation: draw-path 2s ease-out 0.8s forwards;
+        }
+
+        .squircle-hero-svg .circle-path {
+            fill: none;
+            stroke: var(--coral);
+            stroke-width: 3;
+            stroke-dasharray: 400;
+            stroke-dashoffset: 400;
+            animation: draw-path 2s ease-out 1.2s forwards;
+        }
+
+        @keyframes draw-path {
+            to { stroke-dashoffset: 0; }
+        }
+
+        /* Sections */
+        .section {
+            padding: 100px 2rem;
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-label {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--coral);
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--deep-blue);
+            line-height: 1.2;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #5A6B7C;
+            max-width: 700px;
+            margin: 16px auto 0;
+            line-height: 1.6;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin: 60px 0;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(27, 58, 92, 0.06);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--coral);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(242, 90, 66, 0.2);
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--deep-blue);
+            letter-spacing: -0.03em;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-number .stat-suffix {
+            color: var(--coral);
+            font-size: 2rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #5A6B7C;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .squircle-interactive {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: 4rem 3rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(27, 58, 92, 0.06);
+            margin: 40px 0;
+        }
+
+        .squircle-visual {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+        }
+
+        .squircle-canvas {
+            width: 100%;
+            max-width: 380px;
+            height: auto;
+        }
+
+        .squircle-canvas .sq-shape {
+            fill: none;
+            stroke-width: 2;
+            transition: all 0.5s ease;
+        }
+
+        .squircle-canvas .sq-shape.square {
+            stroke: var(--deep-blue);
+            fill: rgba(27, 58, 92, 0.03);
+        }
+
+        .squircle-canvas .sq-shape.circle {
+            stroke: var(--coral);
+            fill: rgba(242, 90, 66, 0.08);
+            stroke-dasharray: 600;
+            stroke-dashoffset: 600;
+            animation: draw-circle 3s ease-out 1s forwards;
+        }
+
+        @keyframes draw-circle {
+            to { stroke-dashoffset: 0; }
+        }
+
+        .squircle-labels {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .squircle-label {
+            position: absolute;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            border-radius: 50px;
+            pointer-events: auto;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .squircle-label.square-label {
+            background: var(--deep-blue);
+            color: var(--white);
+            top: 8%;
+            right: 5%;
+        }
+
+        .squircle-label.circle-label {
+            background: var(--coral);
+            color: var(--white);
+            bottom: 8%;
+            left: 5%;
+        }
+
+        .squircle-label:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-md);
+        }
+
+        .tooltip-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            z-index: 2000;
+            max-width: 500px;
+            width: 90%;
+            padding: 2rem;
+            animation: modal-in 0.3s ease-out;
+        }
+
+        .tooltip-modal.active {
+            display: block;
+        }
+
+        @keyframes modal-in {
+            from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(27, 58, 92, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 1999;
+        }
+
+        .modal-overlay.active {
+            display: block;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--warm-gray);
+            cursor: pointer;
+            transition: color 0.3s ease;
+            padding: 4px;
+        }
+
+        .modal-close:hover {
+            color: var(--deep-blue);
+        }
+
+        /* Ladder */
+        .ladder-container {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(27, 58, 92, 0.06);
+            overflow: hidden;
+            margin: 40px 0;
+        }
+
+        .ladder-header {
+            display: grid;
+            grid-template-columns: 1.5fr 2fr 1.5fr;
+            background: var(--deep-blue);
+            color: var(--white);
+            padding: 1.2rem 2rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            align-items: center;
+        }
+
+        .ladder-row {
+            display: grid;
+            grid-template-columns: 1.5fr 2fr 1.5fr;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(27, 58, 92, 0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            align-items: start;
+            gap: 1rem;
+        }
+
+        .ladder-row:hover {
+            background: rgba(27, 58, 92, 0.03);
+        }
+
+        .ladder-row:last-child {
+            border-bottom: none;
+        }
+
+        .ladder-row .category-name {
+            font-weight: 700;
+            color: var(--deep-blue);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ladder-row .category-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .ladder-row .category-tools {
+            font-size: 0.85rem;
+            color: #5A6B7C;
+            line-height: 1.5;
+        }
+
+        .ladder-row .category-example {
+            font-size: 0.85rem;
+            color: #5A6B7C;
+            line-height: 1.5;
+        }
+
+        .ladder-row.expandable .expandable-content {
+            display: none;
+            grid-column: 1 / -1;
+            padding-top: 1rem;
+            border-top: 1px dashed rgba(27, 58, 92, 0.15);
+            margin-top: 0.5rem;
+        }
+
+        .ladder-row.expandable.active .expandable-content {
+            display: block;
+            animation: expand-in 0.4s ease-out;
+        }
+
+        @keyframes expand-in {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .sl-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .sl-card {
+            background: var(--clear-ice);
+            border-radius: var(--radius-sm);
+            padding: 1rem 1.2rem;
+            font-size: 0.82rem;
+            line-height: 1.5;
+        }
+
+        .sl-card.strength {
+            border-left: 3px solid #2E7D32;
+        }
+
+        .sl-card.limitation {
+            border-left: 3px solid var(--coral);
+        }
+
+        .sl-card .sl-label {
+            font-weight: 700;
+            font-size: 0.7rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .sl-card.strength .sl-label { color: #2E7D32; }
+        .sl-card.limitation .sl-label { color: var(--coral-dark); }
+
+        .adoption-adaptation {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 40px 0;
+        }
+
+        .aa-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(27, 58, 92, 0.06);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .aa-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .aa-card.adoption { border-top: 4px solid var(--warm-gray); }
+        .aa-card.adaptation { border-top: 4px solid var(--coral); }
+
+        .aa-card .aa-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .aa-card .aa-subtitle {
+            font-size: 0.85rem;
+            color: #5A6B7C;
+            margin-bottom: 1.5rem;
+        }
+
+        .aa-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .aa-card ul li {
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .aa-card ul li::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            margin-top: 8px;
+            flex-shrink: 0;
+        }
+
+        .aa-card.adoption ul li::before { background: var(--warm-gray); }
+        .aa-card.adaptation ul li::before { background: var(--coral); }
+
+        .approach-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin: 40px 0;
+        }
+
+        .step-card {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: 2rem 1.5rem;
+            text-align: left;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(27, 58, 92, 0.06);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .step-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: rgba(242, 90, 66, 0.15);
+            line-height: 1;
+            margin-bottom: 1rem;
+            letter-spacing: -0.04em;
+        }
+
+        .step-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            color: var(--deep-blue);
+        }
+
+        .step-description {
+            font-size: 0.88rem;
+            color: #5A6B7C;
+            line-height: 1.6;
+        }
+
+        .cta-section {
+            background: var(--deep-blue);
+            border-radius: var(--radius-xl);
+            padding: 4rem 3rem;
+            text-align: center;
+            color: var(--white);
+            margin: 60px 0 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 40%, rgba(242, 90, 66, 0.1) 0%, transparent 60%);
+            pointer-events: none;
+            animation: cta-glow 6s ease-in-out infinite;
+        }
+
+        @keyframes cta-glow {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(20px, -20px); }
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-title {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+        }
+
+        .cta-subtitle {
+            font-size: 1.05rem;
+            color: var(--warm-gray);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-btn.primary {
+            background: var(--coral);
+            color: var(--white);
+        }
+
+        .cta-btn.primary:hover {
+            background: var(--coral-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(242, 90, 66, 0.4);
+        }
+
+        .cta-btn.secondary {
+            background: transparent;
+            color: var(--white);
+            border: 1px solid rgba(244, 246, 249, 0.3);
+        }
+
+        .cta-btn.secondary:hover {
+            border-color: var(--white);
+            background: rgba(244, 246, 249, 0.08);
+        }
+
+        .author-section {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 2rem 2.5rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(27, 58, 92, 0.06);
+            margin: 40px 0;
+        }
+
+        .author-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: var(--deep-blue);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+            letter-spacing: -0.02em;
+            overflow: hidden;
+        }
+
+        .author-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .author-info h4 {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--deep-blue);
+            margin-bottom: 2px;
+        }
+
+        .author-info .author-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--coral);
+            margin-bottom: 4px;
+        }
+
+        .author-info .author-link {
+            font-size: 0.85rem;
+            color: var(--deep-blue);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 8px;
+            border-bottom: 1px solid rgba(27, 58, 92, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .author-info .author-link:hover {
+            color: var(--coral);
+            border-bottom-color: var(--coral);
+        }
+
+        .author-info p {
+            font-size: 0.85rem;
+            color: #5A6B7C;
+            line-height: 1.6;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.8rem;
+            color: var(--warm-gray);
+            border-top: 1px solid rgba(27, 58, 92, 0.08);
+        }
+
+        .footer a {
+            color: var(--deep-blue);
+            text-decoration: none;
+            font-weight:500;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--coral);
+            color: var(--white);
+            border: none;
+            cursor: pointer;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(242, 90, 66, 0.4);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            z-index: 500;
+            pointer-events: none;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .back-to-top:hover {
+            background: var(--coral-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(242, 90, 66, 0.5);
+        }
+
+        .thrive-disruption {
+            font-weight: 800;
+            font-size: 2.6rem;
+            color: var(--coral);
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            text-align: center;
+            margin: 2rem auto 1rem;
+            max-width: 800px;
+        }
+
+        @media (max-width: 900px) {
+            .squircle-interactive {
+                grid-template-columns: 1fr;
+                padding: 2rem 1.5rem;
+            }
+
+            .adoption-adaptation {
+                grid-template-columns: 1fr;
+            }
+
+            .ladder-header,
+            .ladder-row {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+                padding: 1.2rem 1.5rem;
+            }
+
+            .ladder-header {
+                display: none;
+            }
+
+            .ladder-row {
+                border-bottom: 2px solid rgba(27, 58, 92, 0.08);
+            }
+
+            .sl-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 64px;
+                left: 0;
+                right: 0;
+                background: var(--deep-blue);
+                flex-direction: column;
+                padding: 1.5rem 2rem;
+                gap: 1rem;
+                border-bottom: 1px solid rgba(244, 246, 249, 0.1);
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: flex;
+            }
+
+            .section {
+                padding: 60px 1.2rem;
+            }
+
+            .cta-section {
+                padding: 3rem 1.5rem;
+            }
+
+            .author-section {
+                flex-direction: column;
+                text-align: left;
+                padding: 1.5rem;
+            }
+
+            .thrive-disruption {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero {
+                padding: 100px 1rem 60px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+
+            .stat-number {
+                font-size: 2.2rem;
+            }
+
+            .hero-cta-group {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        [id] {
+            scroll-margin-top: 80px;
+        }
+
+        @media print {
+            .nav-container,
+            .back-to-top,
+            .reading-progress {
+                display: none !important;
+            }
+            .hero {
+                min-height: auto;
+                padding: 60px 2rem;
+            }
+            .section {
+                padding: 40px 2rem;
+            }
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Reading Progress -->
+    <div class="reading-progress" id="readingProgress"></div>
+
+    <!-- Navigation -->
+    <nav class="nav-container" id="navbar">
+        <div class="nav-inner">
+            <a href="#" class="nav-brand">
+                <span class="squircle-dot"></span>LR·LM
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#executive-summary" class="nav-link">Summary</a></li>
+                <li><a href="#human-side" class="nav-link">Human Side</a></li>
+                <li><a href="#tech-side" class="nav-link">Tech Side</a></li>
+                <li><a href="#squircle" class="nav-link">SQUIRCLE®</a></li>
+                <li><a href="#approach" class="nav-link">Approach</a></li>
+                <li><a href="#connect" class="nav-link nav-cta">Connect</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <div class="hero-bg-grid"></div>
+        <div class="hero-orb orb-1"></div>
+        <div class="hero-orb orb-2"></div>
+        <div class="hero-content">
+            <div class="squircle-hero-svg">
+                <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="20" y="20" width="120" height="120" rx="16" class="square-path" />
+                    <circle cx="80" cy="80" r="45" class="circle-path" />
+                </svg>
+            </div>
+            <div class="hero-badge">⚡ Executive White Paper · 2025</div>
+            <h1 class="hero-title">
+                AI Organizational Best Practices<br>
+                <span class="highlight">Defining What Intelligence Is</span><br>
+                in Adapting to AI
+            </h1>
+            <p class="hero-subtitle">
+                The market is saturated with firms explaining AI. Very few are addressing what happens to <strong>judgment, leadership, performance, decision quality, culture, engagement, creativity, resilience, and human identity</strong> when intelligence itself is redefined.
+            </p>
+            <div class="hero-cta-group">
+                <a href="#executive-summary" class="hero-cta-primary">
+                    Read the Framework ↓
+                </a>
+                <a href="#connect" class="hero-cta-secondary">
+                    Connect with Luis
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXECUTIVE SUMMARY -->
+    <section class="section" id="executive-summary">
+        <div class="section-header reveal">
+            <span class="section-label">Executive Summary</span>
+            <h2 class="section-title">The Transformation Gap</h2>
+            <p class="section-subtitle">
+                AI transformation is not only a technology challenge. <strong>It is a human adaptation challenge.</strong> The organizations winning the AI race are not the ones with the most tools — they're the ones whose people can work with them, learn from them, and evolve alongside them.
+            </p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card reveal">
+                <div class="stat-number"><span class="counter" data-target="75">0</span><span class="stat-suffix">%</span></div>
+                <p class="stat-label">of AI pilots fail — technology isn't the problem. Organizational capacity to absorb it is.</p>
+            </div>
+            <div class="stat-card reveal reveal-delay-1">
+                <div class="stat-number"><span class="counter" data-target="1">0</span><span class="stat-suffix">M+</span></div>
+                <p class="stat-label">pieces of AI-assisted content produced annually at L'Oréal — adaptation at scale.</p>
+            </div>
+            <div class="stat-card reveal reveal-delay-2">
+                <div class="stat-number"><span class="counter" data-target="250">0</span><span class="stat-suffix">K+</span></div>
+                <p class="stat-label">senior executives have used the SQUIRCLE assessment across the world's best companies.</p>
+            </div>
+            <div class="stat-card reveal reveal-delay-3">
+                <div class="stat-number"><span class="counter" data-target="17">0</span></div>
+                <p class="stat-label">parameters analyzed in the SQUIRCLE assessment to evaluate decision-making patterns.</p>
+            </div>
+        </div>
+
+        <div class="adoption-adaptation reveal">
+            <div class="aa-card adoption">
+                <h3 class="aa-title">What You're Funding: AI Adoption</h3>
+                <p class="aa-subtitle">Tools, workflows, integrations — visible, budgeted, measurable. What consultants sell you.</p>
+                <ul>
+                    <li>Deploying generative AI platforms</li>
+                    <li>Building internal chatbots and copilots</li>
+                    <li>Automating workflows and pipelines</li>
+                    <li>Training employees on tool usage</li>
+                    <li>Measuring tool adoption metrics</li>
+                </ul>
+            </div>
+            <div class="aa-card adaptation">
+                <h3 class="aa-title">What Decides the Outcome: AI Adaptation</h3>
+                <p class="aa-subtitle">Trust, capability, culture — invisible until it's the reason your pilot died.</p>
+                <ul>
+                    <li>Rebuilding psychological safety for experimentation</li>
+                    <li>Developing judgment for when to trust AI output</li>
+                    <li>Creating new leadership muscles for ambiguity</li>
+                    <li>Addressing fear, skepticism, and resistance as data</li>
+                    <li>Evolving human identity beyond task execution</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="reveal" style="text-align: center; margin-top: 2rem;">
+            <blockquote style="font-size: 1.2rem; font-style: italic; color: var(--deep-blue); border-left: 3px solid var(--coral); padding-left: 1.5rem; text-align: left; max-width: 700px; margin: 0 auto;">
+                "Adoption without adaptation fails. Every time. Asking an exhausted organization to 'just adapt' isn't a strategy. It's negligence with a failure date guarantee."
+            </blockquote>
+        </div>
+    </section>
+
+    <!-- HUMAN SIDE -->
+    <section class="section" id="human-side" style="background: var(--white); border-radius: var(--radius-xl); box-shadow: var(--shadow-md); border: 1px solid rgba(27,58,92,0.06); margin: 60px auto; padding: 80px 3rem; max-width: var(--max-width);">
+        <div class="section-header reveal">
+            <span class="section-label">The Human Side</span>
+            <h2 class="section-title">Leadership Requires New Muscles</h2>
+            <p class="section-subtitle">
+                What kind of humans, leaders, teams, and organizations must we become to thrive with AI? <strong>Experience → Activation → Behavior → Results.</strong>
+            </p>
+        </div>
+
+        <div class="approach-steps">
+            <div class="step-card reveal">
+                <div class="step-number">01</div>
+                <h4 class="step-title">Self-Awareness</h4>
+                <p class="step-description">Recognizing your own cognitive biases — especially the dominance of square thinking that suppresses intuition and creative adaptation. The first step is seeing your own SQUIRCLE.</p>
+            </div>
+            <div class="step-card reveal reveal-delay-1">
+                <div class="step-number">02</div>
+                <h4 class="step-title">Accountability</h4>
+                <p class="step-description">AI can generate outputs, but humans remain accountable for outcomes. Leaders must model ownership when AI produces errors, biases, or unintended consequences.</p>
+            </div>
+            <div class="step-card reveal reveal-delay-2">
+                <div class="step-number">03</div>
+                <h4 class="step-title">Vulnerability</h4>
+                <p class="step-description">The courage to say "I don't know" and "let's learn together." Vulnerability creates the psychological safety required for genuine experimentation with AI.</p>
+            </div>
+            <div class="step-card reveal reveal-delay-3">
+                <div class="step-number">04</div>
+                <h4 class="step-title">Systems Thinking</h4>
+                <p class="step-description">Seeing the interconnected web of technology, people, incentives, culture, and power. AI doesn't operate in a vacuum — it's absorbed (or rejected) by a living system.</p>
+            </div>
+            <div class="step-card reveal">
+                <div class="step-number">05</div>
+                <h4 class="step-title">Paradoxical Thinking</h4>
+                <p class="step-description">Holding competing truths simultaneously: AI is both a threat and an opportunity. Efficiency and humanity must coexist. Control and letting go are both required.</p>
+            </div>
+        </div>
+
+        <div class="reveal" style="margin-top: 3rem;">
+            <div style="background: var(--clear-ice); border-radius: var(--radius-lg); padding: 2rem 2.5rem; border-left: 4px solid var(--coral);">
+                <h4 style="font-weight: 700; font-size: 1.1rem; margin-bottom: 1rem; color: var(--deep-blue);">Human Adaptation in the Age of AI</h4>
+                <p style="font-size: 0.95rem; color: #5A6B7C; line-height: 1.7;">
+                    The market is saturated with firms explaining AI. Very few are explaining what happens to:
+                    <strong>judgment, leadership, performance, decision quality, culture, engagement, creativity, resilience, and human identity.</strong>
+                    AI isn't arriving in a fresh organization. It's arriving in one already exhausted by continuous change — digital transformation, COVID, hybrid work, economic uncertainty, and growing fears about the future of work itself.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- TECH SIDE -->
+    <section class="section" id="tech-side">
+        <div class="section-header reveal">
+            <span class="section-label">The Tech Side</span>
+            <h2 class="section-title">The AI Ladder<span style="color: var(--coral);">+</span></h2>
+            <p class="section-subtitle">
+                Knowing the right tools — and most importantly, <strong style="color: var(--coral);">knowing when not to use AI</strong>.<br>
+                A blueprint to define the best tool to solve a problem. Click any category to explore its strengths and limitations.
+            </p>
+        </div>
+
+        <div class="ladder-container reveal">
+            <div class="ladder-header">
+                <span>Category</span>
+                <span>Top-Tier Tools / Methods</span>
+                <span>Strategic Application</span>
+            </div>
+
+            <!-- Row 1: Code -->
+            <div class="ladder-row expandable" data-category="code">
+                <div class="category-name">
+                    <span class="category-icon" style="background: rgba(27,58,92,0.08); color: var(--deep-blue);">⌨</span>
+                    Code (Deterministic Logic)
+                </div>
+                <div class="category-tools">Python, SQL, RPA (UiPath), ERP systems</div>
+                <div class="category-example">Automate regulatory reporting across 12 LATAM markets with 100% compliance accuracy.</div>
+                <div class="expandable-content">
+                    <div class="sl-grid">
+                        <div class="sl-card strength">
+                            <span class="sl-label">✓ When It Outperforms</span>
+                            Absolute precision and repetition. Never deviates from rules — perfect for strict financial or operational routing.
+                        </div>
+                        <div class="sl-card limitation">
+                            <span class="sl-label">✗ Key Limitation</span>
+                            Cannot adapt to exceptions. If the data shape changes, the code breaks.
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.8rem; color: #5A6B7C;"><strong>More strategic examples:</strong> Standardize financial consolidation for a $3B portfolio across multiple jurisdictions. Execute cross-border trade settlements with zero latency for a global treasury function.</p>
+                </div>
+            </div>
+
+            <!-- Row 2: Individual AI -->
+            <div class="ladder-row expandable" data-category="individual-ai">
+                <div class="category-name">
+                    <span class="category-icon" style="background: rgba(242,90,66,0.08); color: var(--coral);">🤖</span>
+                    Individual Use of AI
+                </div>
+                <div class="category-tools">Gemini Advanced, ChatGPT, GitHub Copilot</div>
+                <div class="category-example">Accelerate due diligence synthesis for M&A deal teams evaluating cross-border acquisitions.</div>
+                <div class="expandable-content">
+                    <div class="sl-grid">
+                        <div class="sl-card strength">
+                            <span class="sl-label">✓ When It Outperforms</span>
+                            Personal drafting and brainstorming. Accelerates single-worker output by overcoming the "blank page" problem.
+                        </div>
+                        <div class="sl-card limitation">
+                            <span class="sl-label">✗ Key Limitation</span>
+                            Lacks systemic oversight and relies entirely on the individual's ability to prompt and verify.
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.8rem; color: #5A6B7C;"><strong>More strategic examples:</strong> Generate scenario-based strategic narratives for board-level presentations. Rapidly model competitive responses to market disruption for a regional leadership team.</p>
+                </div>
+            </div>
+
+            <!-- Row 3: Machine Learning -->
+            <div class="ladder-row expandable" data-category="ml">
+                <div class="category-name">
+                    <span class="category-icon" style="background: rgba(27,58,92,0.08); color: var(--deep-blue);">📊</span>
+                    Machine Learning (Pattern & Prediction)
+                </div>
+                <div class="category-tools">Scikit-learn, TensorFlow, XGBoost</div>
+                <div class="category-example">Forecast portfolio risk across volatile LATAM markets to inform capital allocation decisions.</div>
+                <div class="expandable-content">
+                    <div class="sl-grid">
+                        <div class="sl-card strength">
+                            <span class="sl-label">✓ When It Outperforms</span>
+                            Finding hidden patterns in massive data. Handles complex, multi-variable predictions far better than human intuition.
+                        </div>
+                        <div class="sl-card limitation">
+                            <span class="sl-label">✗ Key Limitation</span>
+                            Requires massive amounts of clean data to train and can suffer from historical bias.
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.8rem; color: #5A6B7C;"><strong>More strategic examples:</strong> Identify early signals of customer churn across a 10M+ customer base to prioritize retention investment. Model regulatory capital requirements under multiple stress scenarios for a systemically important bank.</p>
+                </div>
+            </div>
+
+            <!-- Row 4: Enterprise AI -->
+            <div class="ladder-row expandable" data-category="enterprise-ai">
+                <div class="category-name">
+                    <span class="category-icon" style="background: rgba(242,90,66,0.08); color: var(--coral);">🏢</span>
+                    Enterprise Use of AI
+                </div>
+                <div class="category-tools">Custom RAG, Palantir, Microsoft 365 Copilot</div>
+                <div class="category-example">Synthesize ESG compliance across 15 jurisdictions for board-level regulatory reporting.</div>
+                <div class="expandable-content">
+                    <div class="sl-grid">
+                        <div class="sl-card strength">
+                            <span class="sl-label">✓ When It Outperforms</span>
+                            Synthesizing siloed corporate data. Excels at securely connecting HR, Legal, and Finance data to generate company-wide insights.
+                        </div>
+                        <div class="sl-card limitation">
+                            <span class="sl-label">✗ Key Limitation</span>
+                            Highly complex to implement securely and requires strict governance to prevent data leaks.
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.8rem; color: #5A6B7C;"><strong>More strategic examples:</strong> Detect systemic fraud patterns across a $50B transaction network to protect institutional clients. Orchestrate end-to-end procurement strategy across 3 continents for a multinational manufacturer.</p>
+                </div>
+            </div>
+
+            <!-- Row 5: Human Reasoning -->
+            <div class="ladder-row expandable" data-category="human-reasoning">
+                <div class="category-name">
+                    <span class="category-icon" style="background: rgba(27,58,92,0.08); color: var(--deep-blue);">🧠</span>
+                    Human Reasoning (Judgment & Empathy)
+                </div>
+                <div class="category-tools">Strategic frameworks, Emotional intelligence, Brainstorming</div>
+                <div class="category-example">Navigate unprecedented regulatory gray areas during a hostile cross-border merger.</div>
+                <div class="expandable-content">
+                    <div class="sl-grid">
+                        <div class="sl-card strength">
+                            <span class="sl-label">✓ When It Outperforms</span>
+                            Ambiguity, empathy, and unprecedented novelty. Only humans can exercise ethical judgment, build true relationships, and be accountable.
+                        </div>
+                        <div class="sl-card limitation">
+                            <span class="sl-label">✗ Key Limitation</span>
+                            Slow, expensive, prone to fatigue, and difficult to scale consistently.
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.8rem; color: #5A6B7C;"><strong>More strategic examples:</strong> Rebuild stakeholder trust after a major AI-related reputational crisis. Chart strategic direction when core business models face technological disruption from new entrants.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="reveal" style="margin-top: 2rem; text-align: center;">
+            <p style="font-size: 1.1rem; color: var(--deep-blue); font-weight: 600;">
+                The key insight: <span style="color: var(--coral);">AI is perhaps the most powerful Square tool ever created.</span><br>
+                If technology alone were enough, AI would already have transformed every organization on Earth. It hasn't.
+            </p>
+        </div>
+    </section>
+
+    <!-- SQUIRCLE FRAMEWORK -->
+    <section class="section" id="squircle" style="background: var(--white); border-radius: var(--radius-xl); box-shadow: var(--shadow-md); border: 1px solid rgba(27,58,92,0.06); margin: 60px auto; padding: 80px 3rem; max-width: var(--max-width);">
+        <div class="section-header reveal">
+            <span class="section-label">The SQUIRCLE® Framework</span>
+            <h2 class="section-title">A New Way to Think for a New World</h2>
+            <p class="section-subtitle">
+                Your best thinking built this company. It may also be the bottleneck. Understanding the interplay between Square and Circle thinking is the key to AI adaptation.
+            </p>
+        </div>
+
+        <div class="squircle-interactive reveal">
+            <div class="squircle-visual">
+                <svg class="squircle-canvas" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="50" y="50" width="300" height="300" rx="20" class="sq-shape square" />
+                    <circle cx="200" cy="200" r="105" class="sq-shape circle" />
+                    <circle cx="200" cy="200" r="6" fill="#F25A42" />
+                </svg>
+                <div class="squircle-labels">
+                    <button class="squircle-label square-label" data-modal="square-modal">■ Square</button>
+                    <button class="squircle-label circle-label" data-modal="circle-modal">● Circle</button>
+                </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <div>
+                    <h3 style="font-weight: 800; font-size: 1.5rem; color: var(--deep-blue); margin-bottom: 0.75rem;">The Square</h3>
+                    <p style="font-size: 0.95rem; color: #5A6B7C; line-height: 1.7;">
+                        Analytical, systematic, and control-oriented. It excels at designing systems, optimizing processes, and deploying technology. <strong>AI is perhaps the most powerful Square tool ever created.</strong> But when the Square becomes dominant, it traps the Circle — depriving us of essential adaptive and problem-solving skills.
+                    </p>
+                </div>
+                <div>
+                    <h3 style="font-weight: 800; font-size: 1.5rem; color: var(--coral); margin-bottom: 0.75rem;">The Circle</h3>
+                    <p style="font-size: 0.95rem; color: #5A6B7C; line-height: 1.7;">
+                        Adaptive, perceptive, and relational. It navigates uncertainty, senses resistance before it becomes visible, and helps people move from compliance to genuine participation. <strong>This is what decides whether your AI transformation succeeds or stalls.</strong>
+                    </p>
+                </div>
+                <div>
+                    <h3 style="font-weight: 800; font-size: 1.5rem; color: var(--deep-blue); margin-bottom: 0.75rem;">The SQUIRCLE</h3>
+                    <p style="font-size: 0.95rem; color: #5A6B7C; line-height: 1.7;">
+                        When Square and Circle work in synergy, a deeper intelligence emerges — <strong>Intuitive Intelligence</strong>. This is the synergy between reason and instinct, made possible by intuition that bridges the two. It's what enables organizations to thrive in disruption.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-grid" style="margin-top: 3rem;">
+            <div class="stat-card reveal">
+                <div class="stat-number"><span class="counter" data-target="80">0</span><span class="stat-suffix">/20</span></div>
+                <p class="stat-label">Typical thinking preference: 80% Square vs 20% Circle across most organizations</p>
+            </div>
+            <div class="stat-card reveal reveal-delay-1">
+                <div class="stat-number"><span class="counter" data-target="66">0</span><span class="stat-suffix">/34</span></div>
+                <p class="stat-label">The most balanced thinking ratio observed in SQUIRCLE test statistics</p>
+            </div>
+            <div class="stat-card reveal reveal-delay-2">
+                <div class="stat-number"><span class="counter" data-target="100">0</span><span class="stat-suffix">%</span></div>
+                <p class="stat-label">Success rate of the SQUIRCLE Game — every group eventually completes it</p>
+            </div>
+        </div>
+
+        <div class="reveal" style="margin-top: 3rem;">
+            <h3 style="font-weight: 800; font-size: 1.4rem; color: var(--deep-blue); margin-bottom: 1.5rem; text-align: center;">The Proof — A Track Record</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+                <div style="background: var(--clear-ice); border-radius: var(--radius-md); padding: 1.8rem; border-top: 3px solid var(--coral);">
+                    <h4 style="font-weight: 700; margin-bottom: 0.5rem;">1M+ Adaptation at Scale</h4>
+                    <p style="font-size: 0.88rem; color: #5A6B7C;">L'Oréal — the world's leading beauty company — now produces more than a million pieces of AI-assisted content annually. The goal isn't replacing people. It's amplifying what people can do.</p>
+                </div>
+                <div style="background: var(--clear-ice); border-radius: var(--radius-md); padding: 1.8rem; border-top: 3px solid var(--coral);">
+                    <h4 style="font-weight: 700; margin-bottom: 0.5rem;">Strategy into Behavior</h4>
+                    <p style="font-size: 0.88rem; color: #5A6B7C;">We've repeatedly helped organizations bridge the gap technology initiatives alone rarely solve — working with leadership teams after major transformation programs were designed, funded, and launched, yet struggled to gain traction.</p>
+                </div>
+                <div style="background: var(--clear-ice); border-radius: var(--radius-md); padding: 1.8rem; border-top: 3px solid var(--coral);">
+                    <h4 style="font-weight: 700; margin-bottom: 0.5rem;">The Lesson in Headlines</h4>
+                    <p style="font-size: 0.88rem; color: #5A6B7C;">Organizations keep discovering that AI can generate outputs at extraordinary speed — while errors, risks, and unintended consequences emerge when human judgment, trust, and oversight fail to evolve alongside the technology.</p>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 2rem; font-weight: 600; color: var(--deep-blue); font-size: 1.1rem;">
+                We finish what others start. We design technology that sticks.
+            </p>
+        </div>
+    </section>
+
+    <!-- APPROACH -->
+    <section class="section" id="approach">
+        <div class="section-header reveal">
+            <span class="section-label">The Approach</span>
+            <h2 class="section-title">We Don't Install Tools and Leave</h2>
+            <p class="section-subtitle">
+                We build organizations that can evolve with them.
+            </p>
+        </div>
+
+        <div class="approach-steps">
+            <div class="step-card reveal">
+                <div class="step-number">01</div>
+                <h4 class="step-title">Diagnose the System, Not the Workflow</h4>
+                <p class="step-description">Every workflow exists inside a human system of relationships, incentives, assumptions, fears, and habits. Before we optimize processes, we identify the invisible forces shaping behavior.</p>
+            </div>
+            <div class="step-card reveal reveal-delay-1">
+                <div class="step-number">02</div>
+                <h4 class="step-title">Treat Resistance as Intelligence</h4>
+                <p class="step-description">Resistance to AI is rarely irrational. It often reveals concerns, constraints, and realities that leadership cannot yet see. We transform resistance from an obstacle into a source of insight — turning fear into participation and skepticism into ownership.</p>
+            </div>
+            <div class="step-card reveal reveal-delay-2">
+                <div class="step-number">03</div>
+                <h4 class="step-title">Build Adaptive Capacity, Not Dependency</h4>
+                <p class="step-description">Tools change. Platforms evolve. Today's breakthrough becomes tomorrow's baseline. We help organizations develop capabilities that endure: comfort with ambiguity, continuous learning, sound judgment, and self-organizing teams.</p>
+            </div>
+            <div class="step-card reveal reveal-delay-3">
+                <div class="step-number">04</div>
+                <h4 class="step-title">Start Where Change Starts: Leadership</h4>
+                <p class="step-description">Adaptation cannot be mandated. It must be modeled. We equip leaders to navigate uncertainty, build trust, and embody the behaviors they expect from others before asking the organization to follow.</p>
+            </div>
+        </div>
+
+        <div class="reveal" style="text-align: center; margin-top: 3rem;">
+            <h3 class="thrive-disruption">
+                THRIVE IN DISRUPTION®
+            </h3>
+            <p style="font-size: 1.1rem; color: #5A6B7C; margin-top: 0.75rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+                You cannot control your way in a world of constant change. You can only adapt through it.
+            </p>
+        </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section class="section" id="connect">
+        <div class="cta-section reveal">
+            <div class="cta-content">
+                <h3 class="cta-title">The Transformation Your Board Is Asking For<br>Isn't a Technology Upgrade.</h3>
+                <p class="cta-subtitle">
+                    It's an evolution in human capability. AI isn't diminishing the importance of human intelligence. It's revealing what human intelligence truly is — and how much untapped potential remains within your organization.
+                </p>
+                <div class="cta-buttons">
+                    <a href="https://calendar.app.google/5mGHg5BamQ86j4HH9" target="_blank" rel="noopener" class="cta-btn primary">
+                        📅 Book a Strategy Session
+                    </a>
+                    <a href="https://www.linkedin.com/in/lrlm/" target="_blank" rel="noopener" class="cta-btn secondary">
+                        🔗 Connect on LinkedIn
+                    </a>
+                </div>
+                <p style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--warm-gray);">
+                    Comment below with your thoughts — I read and respond to every engagement.
+                </p>
+            </div>
+        </div>
+
+        <!-- Author Section -->
+        <div class="author-section reveal">
+            <div class="author-avatar">LL</div>
+            <div class="author-info">
+                <h4>Luis Roberto Lopez Monterrubio</h4>
+                <p class="author-title">Executive Advisor and Managing Partner — AI Adaptation & Human Potential · The Human Company</p>
+                <a href="https://thehumancompany.com/ai-transformation/" target="_blank" rel="noopener" class="author-link">thehumancompany.com/ai-transformation/</a>
+                <p>
+                    Luis Monterrubio is a trilingual (English/Spanish/Portuguese) senior executive with a 15-year track record of driving profitable growth and strategic transformation across LATAM's most demanding financial services and consulting environments. With +3,000M USD in managed premium portfolios and cross-border negotiations, he has embedded operational excellence while navigating complex regulatory landscapes. Luis brings proven mastery of responsible AI adoption and escalation — ensuring that AI initiatives are not only innovative but also ethically governed, risk-aware, and operationally scalable. He delivers results where risk is high and room for error is zero.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>© 2025 Luis Roberto Lopez Monterrubio · The Human Company · <a href="#hero">Back to top ↑</a></p>
+        <p style="margin-top: 4px;">SQUIRCLE® and THRIVE IN DISRUPTION® are registered trademarks. All rights reserved.</p>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+
+    <!-- Square Modal -->
+    <div class="tooltip-modal" id="square-modal">
+        <button class="modal-close" data-close="square-modal">✕</button>
+        <h3 style="font-weight: 800; font-size: 1.3rem; margin-bottom: 1rem; color: var(--deep-blue);">The Square ■</h3>
+        <p style="font-size: 0.95rem; color: #5A6B7C; line-height: 1.7; margin-bottom: 1rem;">
+            <strong>Analytical, systematic, and control-oriented.</strong> It excels at designing systems, optimizing processes, and deploying technology.
+        </p>
+        <p style="font-size: 0.9rem; color: #5A6B7C; line-height: 1.6;">
+            <strong>Strengths:</strong> Rational, dependable, stable, predictable, orderly. Master of logic, deduction, and induction.<br><br>
+            <strong>Shadow side:</strong> When dominant, it suppresses intuition, creativity, and the ability to navigate ambiguity. It becomes an ideology that shuts down critical and creative thinking.
+        </p>
+    </div>
+
+    <!-- Circle Modal -->
+    <div class="tooltip-modal" id="circle-modal">
+        <button class="modal-close" data-close="circle-modal">✕</button>
+        <h3 style="font-weight: 800; font-size: 1.3rem; margin-bottom: 1rem; color: var(--coral);">The Circle ●</h3>
+        <p style="font-size: 0.95rem; color: #5A6B7C; line-height: 1.7; margin-bottom: 1rem;">
+            <strong>Adaptive, perceptive, and relational.</strong> It navigates uncertainty, senses resistance before it becomes visible, and helps people move from compliance to genuine participation.
+        </p>
+        <p style="font-size: 0.9rem; color: #5A6B7C; line-height: 1.6;">
+            <strong>Strengths:</strong> Emergent, fluid, non-linear, inclusive, adaptive. Like nature — complex, creative, holistic, and infinite.<br><br>
+            <strong>Shadow side:</strong> Can be perceived as unstructured, vague, or impractical without the grounding of the Square. Needs the Square to translate insight into action.
+        </p>
+    </div>
+
+    <script>
+        // ===== READING PROGRESS BAR =====
+        const readingProgress = document.getElementById('readingProgress');
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / scrollHeight) * 100;
+            readingProgress.style.width = progress + '%';
+        });
+
+        // ===== NAVBAR SCROLL EFFECT =====
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // ===== MOBILE NAV TOGGLE =====
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('open');
+            });
+        });
+
+        // ===== INTERSECTION OBSERVER FOR REVEAL =====
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // ===== COUNTER ANIMATION =====
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    const target = parseInt(counter.dataset.target);
+                    const duration = 2000;
+                    const startTime = performance.now();
+
+                    function updateCounter(currentTime) {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const eased = 1 - Math.pow(1 - progress, 3);
+                        counter.textContent = Math.round(eased * target);
+                        if (progress < 1) {
+                            requestAnimationFrame(updateCounter);
+                        } else {
+                            counter.textContent = target;
+                        }
+                    }
+                    requestAnimationFrame(updateCounter);
+                    counterObserver.unobserve(counter);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.counter').forEach(el => {
+            counterObserver.observe(el);
+        });
+
+        // ===== LADDER ROW EXPANSION =====
+        document.querySelectorAll('.ladder-row').forEach(row => {
+            row.addEventListener('click', function(e) {
+                if (e.target.closest('button') || e.target.closest('a')) return;
+                this.classList.toggle('active');
+            });
+
+            row.setAttribute('tabindex', '0');
+            row.setAttribute('role', 'button');
+            row.setAttribute('aria-expanded', 'false');
+
+            row.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    row.classList.toggle('active');
+                    row.setAttribute('aria-expanded', row.classList.contains('active'));
+                }
+            });
+        });
+
+        // ===== MODAL SYSTEM =====
+        const modalOverlay = document.getElementById('modalOverlay');
+        let activeModal = null;
+
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                activeModal = modal;
+                modal.classList.add('active');
+                modalOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal() {
+            if (activeModal) {
+                activeModal.classList.remove('active');
+                modalOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+                activeModal = null;
+            }
+        }
+
+        document.querySelectorAll('.squircle-label').forEach(label => {
+            label.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const modalId = this.dataset.modal;
+                if (modalId) openModal(modalId);
+            });
+        });
+
+        modalOverlay.addEventListener('click', closeModal);
+
+        document.querySelectorAll('.modal-close').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const modalId = this.dataset.close;
+                if (modalId) {
+                    document.getElementById(modalId).classList.remove('active');
+                    modalOverlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                    activeModal = null;
+                }
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // ===== BACK TO TOP =====
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 600) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ===== ACTIVE NAV LINK =====
+        const sections = document.querySelectorAll('section[id]');
+        const navLinkElements = document.querySelectorAll('.nav-link');
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const currentId = entry.target.id;
+                    navLinkElements.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === '#' + currentId) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, { threshold: 0.3, rootMargin: '-80px 0px -40px 0px' });
+
+        sections.forEach(section => {
+            sectionObserver.observe(section);
+        });
+
+        // ===== PARALLAX HERO ORBS =====
+        const orbs = document.querySelectorAll('.hero-orb');
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            if (scrollY < window.innerHeight) {
+                orbs.forEach((orb, index) => {
+                    const speed = index === 0 ? 0.2 : -0.15;
+                    orb.style.transform = `translate(${scrollY * speed}px, ${scrollY * speed * 0.5}px)`;
+                });
+            }
+        });
+
+        // ===== SMOOTH SCROLL =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        console.log('%cSQUIRCLE® Framework — Interactive White Paper', 'font-size: 24px; font-weight: 800; color: #1B3A5C;');
+        console.log('%cBy Luis Roberto Lopez Monterrubio · The Human Company', 'font-size: 14px; color: #F25A42;');
+        console.log('%cTHRIVE IN DISRUPTION®', 'font-size: 12px; color: #C4C4C4; letter-spacing: 2px;');
+    </script>
+</body>
+</html>

@@ -1,64 +1,1965 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THC - AI Organizational Best Practices</title>
+    <title>Mejores Prácticas Organizacionales de IA — Definiendo Qué Es la Inteligencia en la Adaptación a la IA | Luis Roberto Lopez Monterrubio</title>
+    <meta name="description" content="Un marco ejecutivo de alto nivel para la adaptación a la IA — cerrando la brecha entre lo humano y lo tecnológico a través de la metodología SQUIRCLE®. Conociendo las herramientas correctas, y cuándo no usar IA.">
     <style>
+        :root {
+            --deep-blue: #1B3A5C;
+            --warm-gray: #C4C4C4;
+            --clear-ice: #F4F6F9;
+            --coral: #F25A42;
+            --coral-dark: #D94A35;
+            --white: #FFFFFF;
+            --shadow-sm: 0 2px 8px rgba(27, 58, 92, 0.06);
+            --shadow-md: 0 8px 30px rgba(27, 58, 92, 0.1);
+            --shadow-lg: 0 20px 60px rgba(27, 58, 92, 0.15);
+            --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            --font-sans: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            --max-width: 1200px;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 70px;
+            font-size: 16px;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: var(--font-sans);
+            background-color: var(--clear-ice);
+            color: var(--deep-blue);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--coral);
+            z-index: 1001;
+            transition: width 0.1s linear;
+        }
+
+        .nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(27, 58, 92, 0.97);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 0 2rem;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(244, 246, 249, 0.08);
+        }
+
+        .nav-container.scrolled {
+            padding: 0 2rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-inner {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+            gap: 1rem;
+        }
+
+        .nav-brand {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--white);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .nav-brand .squircle-dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--coral);
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.4); opacity: 0.7; }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--warm-gray);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            letter-spacing: 0.01em;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--white);
+        }
+
+        .nav-cta {
+            background: var(--coral);
+            color: var(--white) !important;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.78rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .nav-cta:hover {
+            background: var(--coral-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(242, 90, 66, 0.35);
+            color: var(--white) !important;
+        }
+
+        .lang-toggle {
+            background: transparent;
+            border: 1px solid rgba(244, 246, 249, 0.3);
+            color: var(--white);
+            padding: 0.4rem 0.9rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+
+        .lang-toggle:hover {
+            border-color: var(--white);
+            background: rgba(244, 246, 249, 0.1);
+            color: var(--white);
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+            padding: 8px;
+            background: none;
+            border: none;
+        }
+
+        .nav-toggle span {
+            width: 24px;
+            height: 2px;
+            background: var(--white);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        /* Hero */
+        .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-        }
-        .container {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            padding: 40px;
-            max-width: 600px;
+            background: var(--deep-blue);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+            padding: 120px 2rem 80px;
             text-align: center;
         }
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
-            font-size: 2.5em;
+
+        .hero-bg-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(244, 246, 249, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(244, 246, 249, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            animation: grid-move 20s linear infinite;
         }
-        p {
-            color: #666;
-            font-size: 1.1em;
+
+        @keyframes grid-move {
+            0% { background-position: 0 0; }
+            100% { background-position: 60px 60px; }
+        }
+
+        .hero-orb {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(80px);
+            opacity: 0.3;
+            animation: orb-float 8s ease-in-out infinite;
+        }
+
+        .hero-orb.orb-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--coral);
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+
+        .hero-orb.orb-2 {
+            width: 500px;
+            height: 500px;
+            background: #4A90D9;
+            bottom: -200px;
+            right: -150px;
+            animation-delay: 4s;
+        }
+
+        @keyframes orb-float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, -30px) scale(1.1); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(242, 90, 66, 0.15);
+            border: 1px solid rgba(242, 90, 66, 0.4);
+            color: var(--coral);
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            animation: fade-in-up 0.8s ease-out 0.2s both;
+        }
+
+        .hero-title {
+            font-size: clamp(2.2rem, 5.5vw, 4rem);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+            animation: fade-in-up 0.8s ease-out 0.4s both;
+        }
+
+        .hero-title .highlight {
+            color: var(--coral);
+            position: relative;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+            color: var(--warm-gray);
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            font-weight: 400;
             line-height: 1.6;
-            margin-bottom: 30px;
+            animation: fade-in-up 0.8s ease-out 0.6s both;
         }
-        .button {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 12px 30px;
-            border-radius: 5px;
+
+        .hero-cta-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fade-in-up 0.8s ease-out 0.8s both;
+        }
+
+        .hero-cta-primary {
+            background: var(--coral);
+            color: var(--white);
+            padding: 1rem 2.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
             text-decoration: none;
-            margin: 10px;
-            transition: transform 0.3s;
+            transition: all 0.3s ease;
+            letter-spacing: 0.01em;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            cursor: pointer;
         }
-        .button:hover {
-            transform: translateY(-2px);
+
+        .hero-cta-primary:hover {
+            background: var(--coral-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(242, 90, 66, 0.4);
+        }
+
+        .hero-cta-secondary {
+            background: transparent;
+            color: var(--white);
+            padding: 1rem 2.2rem;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(244, 246, 249, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hero-cta-secondary:hover {
+            border-color: var(--white);
+            background: rgba(244, 246, 249, 0.08);
+        }
+
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .squircle-hero-svg {
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 2rem;
+            animation: fade-in-up 0.8s ease-out 0.3s both;
+        }
+
+        .squircle-hero-svg .square-path {
+            fill: none;
+            stroke: rgba(244, 246, 249, 0.5);
+            stroke-width: 2;
+            stroke-dasharray: 600;
+            stroke-dashoffset: 600;
+            animation: draw-path 2s ease-out 0.8s forwards;
+        }
+
+        .squircle-hero-svg .circle-path {
+            fill: none;
+            stroke: var(--coral);
+            stroke-width: 3;
+            stroke-dasharray: 400;
+            stroke-dashoffset: 400;
+            animation: draw-path 2s ease-out 1.2s forwards;
+        }
+
+        @keyframes draw-path {
+            to { stroke-dashoffset: 0; }
+        }
+
+        /* Sections */
+        .section {
+            padding: 100px 2rem;
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-label {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--coral);
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--deep-blue);
+            line-height: 1.2;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #5A6B7C;
+            max-width: 700px;
+            margin: 16px auto 0;
+            line-height: 1.6;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin: 60px 0;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(27, 58, 92, 0.06);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--coral);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(242, 90, 66, 0.2);
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--deep-blue);
+            letter-spacing: -0.03em;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-number .stat-suffix {
+            color: var(--coral);
+            font-size: 2rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #5A6B7C;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .squircle-interactive {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: 4rem 3rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(27, 58, 92, 0.06);
+            margin: 40px 0;
+        }
+
+        .squircle-visual {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+        }
+
+        .squircle-canvas {
+            width: 100%;
+            max-width: 380px;
+            height: auto;
+        }
+
+        .squircle-canvas .sq-shape {
+            fill: none;
+            stroke-width: 2;
+            transition: all 0.5s ease;
+        }
+
+        .squircle-canvas .sq-shape.square {
+            stroke: var(--deep-blue);
+            fill: rgba(27, 58, 92, 0.03);
+        }
+
+        .squircle-canvas .sq-shape.circle {
+            stroke: var(--coral);
+            fill: rgba(242, 90, 66, 0.08);
+            stroke-dasharray: 600;
+            stroke-dashoffset: 600;
+            animation: draw-circle 3s ease-out 1s forwards;
+        }
+
+        @keyframes draw-circle {
+            to { stroke-dashoffset: 0; }
+        }
+
+        .squircle-labels {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .squircle-label {
+            position: absolute;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            border-radius: 50px;
+            pointer-events: auto;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .squircle-label.square-label {
+            background: var(--deep-blue);
+            color: var(--white);
+            top: 8%;
+            right: 5%;
+        }
+
+        .squircle-label.circle-label {
+            background: var(--coral);
+            color: var(--white);
+            bottom: 8%;
+            left: 5%;
+        }
+
+        .squircle-label:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-md);
+        }
+
+        .tooltip-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            z-index: 2000;
+            max-width: 500px;
+            width: 90%;
+            padding: 2rem;
+            animation: modal-in 0.3s ease-out;
+        }
+
+        .tooltip-modal.active {
+            display: block;
+        }
+
+        @keyframes modal-in {
+            from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(27, 58, 92, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 1999;
+        }
+
+        .modal-overlay.active {
+            display: block;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--warm-gray);
+            cursor: pointer;
+            transition: color 0.3s ease;
+            padding: 4px;
+        }
+
+        .modal-close:hover {
+            color: var(--deep-blue);
+        }
+
+        /* Ladder */
+        .ladder-container {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(27, 58, 92, 0.06);
+            overflow: hidden;
+            margin: 40px 0;
+        }
+
+        .ladder-header {
+            display: grid;
+            grid-template-columns: 1.5fr 2fr 1.5fr;
+            background: var(--deep-blue);
+            color: var(--white);
+            padding: 1.2rem 2rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            align-items: center;
+        }
+
+        .ladder-row {
+            display: grid;
+            grid-template-columns: 1.5fr 2fr 1.5fr;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(27, 58, 92, 0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            align-items: start;
+            gap: 1rem;
+        }
+
+        .ladder-row:hover {
+            background: rgba(27, 58, 92, 0.03);
+        }
+
+        .ladder-row:last-child {
+            border-bottom: none;
+        }
+
+        .ladder-row .category-name {
+            font-weight: 700;
+            color: var(--deep-blue);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ladder-row .category-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .ladder-row .category-tools {
+            font-size: 0.85rem;
+            color: #5A6B7C;
+            line-height: 1.5;
+        }
+
+        .ladder-row .category-example {
+            font-size: 0.85rem;
+            color: #5A6B7C;
+            line-height: 1.5;
+        }
+
+        .ladder-row.expandable .expandable-content {
+            display: none;
+            grid-column: 1 / -1;
+            padding-top: 1rem;
+            border-top: 1px dashed rgba(27, 58, 92, 0.15);
+            margin-top: 0.5rem;
+        }
+
+        .ladder-row.expandable.active .expandable-content {
+            display: block;
+            animation: expand-in 0.4s ease-out;
+        }
+
+        @keyframes expand-in {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .sl-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .sl-card {
+            background: var(--clear-ice);
+            border-radius: var(--radius-sm);
+            padding: 1rem 1.2rem;
+            font-size: 0.82rem;
+            line-height: 1.5;
+        }
+
+        .sl-card.strength {
+            border-left: 3px solid #2E7D32;
+        }
+
+        .sl-card.limitation {
+            border-left: 3px solid var(--coral);
+        }
+
+        .sl-card .sl-label {
+            font-weight: 700;
+            font-size: 0.7rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .sl-card.strength .sl-label { color: #2E7D32; }
+        .sl-card.limitation .sl-label { color: var(--coral-dark); }
+
+        .adoption-adaptation {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 40px 0;
+        }
+
+        .aa-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(27, 58, 92, 0.06);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .aa-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .aa-card.adoption { border-top: 4px solid var(--warm-gray); }
+        .aa-card.adaptation { border-top: 4px solid var(--coral); }
+
+        .aa-card .aa-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .aa-card .aa-subtitle {
+            font-size: 0.85rem;
+            color: #5A6B7C;
+            margin-bottom: 1.5rem;
+        }
+
+        .aa-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .aa-card ul li {
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .aa-card ul li::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            margin-top: 8px;
+            flex-shrink: 0;
+        }
+
+        .aa-card.adoption ul li::before { background: var(--warm-gray); }
+        .aa-card.adaptation ul li::before { background: var(--coral); }
+
+        .approach-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin: 40px 0;
+        }
+
+        .step-card {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: 2rem 1.5rem;
+            text-align: left;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(27, 58, 92, 0.06);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .step-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: rgba(242, 90, 66, 0.15);
+            line-height: 1;
+            margin-bottom: 1rem;
+            letter-spacing: -0.04em;
+        }
+
+        .step-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            color: var(--deep-blue);
+        }
+
+        .step-description {
+            font-size: 0.88rem;
+            color: #5A6B7C;
+            line-height: 1.6;
+        }
+
+        .cta-section {
+            background: var(--deep-blue);
+            border-radius: var(--radius-xl);
+            padding: 4rem 3rem;
+            text-align: center;
+            color: var(--white);
+            margin: 60px 0 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 40%, rgba(242, 90, 66, 0.1) 0%, transparent 60%);
+            pointer-events: none;
+            animation: cta-glow 6s ease-in-out infinite;
+        }
+
+        @keyframes cta-glow {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(20px, -20px); }
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-title {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+        }
+
+        .cta-subtitle {
+            font-size: 1.05rem;
+            color: var(--warm-gray);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-btn.primary {
+            background: var(--coral);
+            color: var(--white);
+        }
+
+        .cta-btn.primary:hover {
+            background: var(--coral-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(242, 90, 66, 0.4);
+        }
+
+        .cta-btn.secondary {
+            background: transparent;
+            color: var(--white);
+            border: 1px solid rgba(244, 246, 249, 0.3);
+        }
+
+        .cta-btn.secondary:hover {
+            border-color: var(--white);
+            background: rgba(244, 246, 249, 0.08);
+        }
+
+        .author-section {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 2rem 2.5rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(27, 58, 92, 0.06);
+            margin: 40px 0;
+        }
+
+        .author-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: var(--deep-blue);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+            letter-spacing: -0.02em;
+            overflow: hidden;
+        }
+
+        .author-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .author-info h4 {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--deep-blue);
+            margin-bottom: 2px;
+        }
+
+        .author-info .author-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--coral);
+            margin-bottom: 4px;
+        }
+
+        .author-info .author-link {
+            font-size: 0.85rem;
+            color: var(--deep-blue);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 8px;
+            border-bottom: 1px solid rgba(27, 58, 92, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .author-info .author-link:hover {
+            color: var(--coral);
+            border-bottom-color: var(--coral);
+        }
+
+        .author-info p {
+            font-size: 0.85rem;
+            color: #5A6B7C;
+            line-height: 1.6;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.8rem;
+            color: var(--warm-gray);
+            border-top: 1px solid rgba(27, 58, 92, 0.08);
+        }
+
+        .footer a {
+            color: var(--deep-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--coral);
+            color: var(--white);
+            border: none;
+            cursor: pointer;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(242, 90, 66, 0.4);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            z-index: 500;
+            pointer-events: none;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .back-to-top:hover {
+            background: var(--coral-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(242, 90, 66, 0.5);
+        }
+
+        .thrive-disruption {
+            font-weight: 800;
+            font-size: 2.6rem;
+            color: var(--coral);
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            text-align: center;
+            margin: 2rem auto 1rem;
+            max-width: 800px;
+        }
+
+        @media (max-width: 900px) {
+            .squircle-interactive {
+                grid-template-columns: 1fr;
+                padding: 2rem 1.5rem;
+            }
+
+            .adoption-adaptation {
+                grid-template-columns: 1fr;
+            }
+
+            .ladder-header,
+            .ladder-row {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+                padding: 1.2rem 1.5rem;
+            }
+
+            .ladder-header {
+                display: none;
+            }
+
+            .ladder-row {
+                border-bottom: 2px solid rgba(27, 58, 92, 0.08);
+            }
+
+            .sl-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 64px;
+                left: 0;
+                right: 0;
+                background: var(--deep-blue);
+                flex-direction: column;
+                padding: 1.5rem 2rem;
+                gap: 1rem;
+                border-bottom: 1px solid rgba(244, 246, 249, 0.1);
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: flex;
+            }
+
+            .section {
+                padding: 60px 1.2rem;
+            }
+
+            .cta-section {
+                padding: 3rem 1.5rem;
+            }
+
+            .author-section {
+                flex-direction: column;
+                text-align: left;
+                padding: 1.5rem;
+            }
+
+            .thrive-disruption {
+                font-size: 1.8rem;
+            }
+
+            .lang-toggle {
+                font-size: 0.7rem;
+                padding: 0.35rem 0.7rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero {
+                padding: 100px 1rem 60px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+
+            .stat-number {
+                font-size: 2.2rem;
+            }
+
+            .hero-cta-group {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-inner {
+                gap: 0.5rem;
+                padding: 0 0.5rem;
+            }
+
+            .nav-brand {
+                font-size: 0.9rem;
+            }
+        }
+
+        [id] {
+            scroll-margin-top: 80px;
+        }
+
+        @media print {
+            .nav-container,
+            .back-to-top,
+            .reading-progress {
+                display: none !important;
+            }
+            .hero {
+                min-height: auto;
+                padding: 60px 2rem;
+            }
+            .section {
+                padding: 40px 2rem;
+            }
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
         }
     </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1>🧠 THC</h1>
-        <p><strong>AI Organizational Best Practices</strong></p>
-        <p>Defining what intelligence is and how to build better AI organizations</p>
-        <a href="https://github.com/monterrubiolrAi26/THC" class="button">View on GitHub</a>
+
+    <!-- Reading Progress -->
+    <div class="reading-progress" id="readingProgress"></div>
+
+    <!-- Navigation -->
+    <nav class="nav-container" id="navbar">
+        <div class="nav-inner">
+            <a href="#" class="nav-brand">
+                <span class="squircle-dot"></span>LR·LM
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Abrir menú de navegación">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#resumen-ejecutivo" class="nav-link">Resumen</a></li>
+                <li><a href="#lado-humano" class="nav-link">Lado Humano</a></li>
+                <li><a href="#lado-tech" class="nav-link">Lado Tech</a></li>
+                <li><a href="#squircle" class="nav-link">SQUIRCLE®</a></li>
+                <li><a href="#enfoque" class="nav-link">Enfoque</a></li>
+                <li><a href="#conectar" class="nav-link nav-cta">Conectar</a></li>
+                <li><a href="ai-best-practices-en.html" class="lang-toggle">🌐 EN</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <div class="hero-bg-grid"></div>
+        <div class="hero-orb orb-1"></div>
+        <div class="hero-orb orb-2"></div>
+        <div class="hero-content">
+            <div class="squircle-hero-svg">
+                <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="20" y="20" width="120" height="120" rx="16" class="square-path" />
+                    <circle cx="80" cy="80" r="45" class="circle-path" />
+                </svg>
+            </div>
+            <div class="hero-badge">⚡ White Paper Ejecutivo · 2025</div>
+            <h1 class="hero-title">
+                Mejores Prácticas Organizacionales de IA<br>
+                <span class="highlight">Definiendo Qué Es la Inteligencia</span><br>
+                en la Adaptación a la IA
+            </h1>
+            <p class="hero-subtitle">
+                El mercado está saturado de firmas que explican la IA. Muy pocas están abordando lo que sucede con el <strong>juicio, el liderazgo, el desempeño, la calidad de las decisiones, la cultura, el compromiso, la creatividad, la resiliencia y la identidad humana</strong> cuando la inteligencia misma se redefine.
+            </p>
+            <div class="hero-cta-group">
+                <a href="#resumen-ejecutivo" class="hero-cta-primary">
+                    Leer el Framework ↓
+                </a>
+                <a href="#conectar" class="hero-cta-secondary">
+                    Conectar con Luis
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESUMEN EJECUTIVO -->
+    <section class="section" id="resumen-ejecutivo">
+        <div class="section-header reveal">
+            <span class="section-label">Resumen Ejecutivo</span>
+            <h2 class="section-title">La Brecha de Transformación</h2>
+            <p class="section-subtitle">
+                La transformación por IA no es solo un desafío tecnológico. <strong>Es un desafío de adaptación humana.</strong> Las organizaciones que están ganando la carrera de la IA no son las que tienen más herramientas — son aquellas cuyas personas pueden trabajar con ellas, aprender de ellas y evolucionar junto a ellas.
+            </p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card reveal">
+                <div class="stat-number"><span class="counter" data-target="75">0</span><span class="stat-suffix">%</span></div>
+                <p class="stat-label">de los pilotos de IA fracasan — la tecnología no es el problema. La capacidad organizacional para absorberla sí lo es.</p>
+            </div>
+            <div class="stat-card reveal reveal-delay-1">
+                <div class="stat-number"><span class="counter" data-target="1">0</span><span class="stat-suffix">M+</span></div>
+                <p class="stat-label">piezas de contenido asistido por IA producidas anualmente en L'Oréal — adaptación a escala.</p>
+            </div>
+            <div class="stat-card reveal reveal-delay-2">
+                <div class="stat-number"><span class="counter" data-target="250">0</span><span class="stat-suffix">K+</span></div>
+                <p class="stat-label">ejecutivos senior han utilizado la evaluación SQUIRCLE en las mejores empresas del mundo.</p>
+            </div>
+            <div class="stat-card reveal reveal-delay-3">
+                <div class="stat-number"><span class="counter" data-target="17">0</span></div>
+                <p class="stat-label">parámetros analizados en la evaluación SQUIRCLE para evaluar patrones de toma de decisiones.</p>
+            </div>
+        </div>
+
+        <div class="adoption-adaptation reveal">
+            <div class="aa-card adoption">
+                <h3 class="aa-title">Lo Que Estás Financiando: Adopción de IA</h3>
+                <p class="aa-subtitle">Herramientas, flujos de trabajo, integraciones — visibles, presupuestados, medibles. Lo que venden los consultores.</p>
+                <ul>
+                    <li>Implementar plataformas de IA generativa</li>
+                    <li>Construir chatbots internos y copilotos</li>
+                    <li>Automatizar flujos de trabajo y pipelines</li>
+                    <li>Capacitar a los empleados en el uso de herramientas</li>
+                    <li>Medir métricas de adopción de herramientas</li>
+                </ul>
+            </div>
+            <div class="aa-card adaptation">
+                <h3 class="aa-title">Lo Que Decide el Resultado: Adaptación a la IA</h3>
+                <p class="aa-subtitle">Confianza, capacidad, cultura — invisibles hasta que son la razón por la que tu piloto murió.</p>
+                <ul>
+                    <li>Reconstruir la seguridad psicológica para la experimentación</li>
+                    <li>Desarrollar juicio sobre cuándo confiar en el output de IA</li>
+                    <li>Crear nuevos músculos de liderazgo para la ambigüedad</li>
+                    <li>Abordar el miedo, el escepticismo y la resistencia como datos</li>
+                    <li>Evolucionar la identidad humana más allá de la ejecución de tareas</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="reveal" style="text-align: center; margin-top: 2rem;">
+            <blockquote style="font-size: 1.2rem; font-style: italic; color: var(--deep-blue); border-left: 3px solid var(--coral); padding-left: 1.5rem; text-align: left; max-width: 700px; margin: 0 auto;">
+                "La adopción sin adaptación fracasa. Siempre. Pedirle a una organización exhausta que 'simplemente se adapte' no es una estrategia. Es negligencia con una garantía de fecha de fracaso."
+            </blockquote>
+        </div>
+    </section>
+
+    <!-- LADO HUMANO -->
+    <section class="section" id="lado-humano" style="background: var(--white); border-radius: var(--radius-xl); box-shadow: var(--shadow-md); border: 1px solid rgba(27,58,92,0.06); margin: 60px auto; padding: 80px 3rem; max-width: var(--max-width);">
+        <div class="section-header reveal">
+            <span class="section-label">El Lado Humano</span>
+            <h2 class="section-title">El Liderazgo Requiere Nuevos Músculos</h2>
+            <p class="section-subtitle">
+                ¿Qué tipo de humanos, líderes, equipos y organizaciones debemos llegar a ser para prosperar con la IA? <strong>Experiencia → Activación → Comportamiento → Resultados.</strong>
+            </p>
+        </div>
+
+        <div class="approach-steps">
+            <div class="step-card reveal">
+                <div class="step-number">01</div>
+                <h4 class="step-title">Autoconciencia</h4>
+                <p class="step-description">Reconocer tus propios sesgos cognitivos — especialmente el dominio del pensamiento cuadrado que suprime la intuición y la adaptación creativa. El primer paso es ver tu propio SQUIRCLE.</p>
+            </div>
+            <div class="step-card reveal reveal-delay-1">
+                <div class="step-number">02</div>
+                <h4 class="step-title">Responsabilidad</h4>
+                <p class="step-description">La IA puede generar outputs, pero los humanos siguen siendo responsables de los resultados. Los líderes deben modelar la apropiación cuando la IA produce errores, sesgos o consecuencias no deseadas.</p>
+            </div>
+            <div class="step-card reveal reveal-delay-2">
+                <div class="step-number">03</div>
+                <h4 class="step-title">Vulnerabilidad</h4>
+                <p class="step-description">El coraje de decir "no sé" y "aprendamos juntos." La vulnerabilidad crea la seguridad psicológica necesaria para la experimentación genuina con IA.</p>
+            </div>
+            <div class="step-card reveal reveal-delay-3">
+                <div class="step-number">04</div>
+                <h4 class="step-title">Pensamiento Sistémico</h4>
+                <p class="step-description">Ver la red interconectada de tecnología, personas, incentivos, cultura y poder. La IA no opera en el vacío — es absorbida (o rechazada) por un sistema vivo.</p>
+            </div>
+            <div class="step-card reveal">
+                <div class="step-number">05</div>
+                <h4 class="step-title">Pensamiento Paradójico</h4>
+                <p class="step-description">Sostener verdades en competencia simultáneamente: la IA es tanto una amenaza como una oportunidad. La eficiencia y la humanidad deben coexistir. El control y el soltar son ambos requeridos.</p>
+            </div>
+        </div>
+
+        <div class="reveal" style="margin-top: 3rem;">
+            <div style="background: var(--clear-ice); border-radius: var(--radius-lg); padding: 2rem 2.5rem; border-left: 4px solid var(--coral);">
+                <h4 style="font-weight: 700; font-size: 1.1rem; margin-bottom: 1rem; color: var(--deep-blue);">Adaptación Humana en la Era de la IA</h4>
+                <p style="font-size: 0.95rem; color: #5A6B7C; line-height: 1.7;">
+                    El mercado está saturado de firmas que explican la IA. Muy pocas están explicando lo que sucede con:
+                    <strong>el juicio, el liderazgo, el desempeño, la calidad de las decisiones, la cultura, el compromiso, la creatividad, la resiliencia y la identidad humana.</strong>
+                    La IA no está llegando a una organización fresca. Está llegando a una ya agotada por el cambio continuo — transformación digital, COVID, trabajo híbrido, incertidumbre económica y crecientes temores sobre el futuro del trabajo mismo.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- LADO TECH -->
+    <section class="section" id="lado-tech">
+        <div class="section-header reveal">
+            <span class="section-label">El Lado Tech</span>
+            <h2 class="section-title">La Escalera de IA<span style="color: var(--coral);">+</span></h2>
+            <p class="section-subtitle">
+                Conociendo las herramientas correctas — y lo más importante, <strong style="color: var(--coral);">conociendo cuándo no usar IA</strong>.<br>
+                Un blueprint para definir la mejor herramienta para resolver un problema. Haz clic en cualquier categoría para explorar sus fortalezas y limitaciones.
+            </p>
+        </div>
+
+        <div class="ladder-container reveal">
+            <div class="ladder-header">
+                <span>Categoría</span>
+                <span>Herramientas / Métodos de Élite</span>
+                <span>Aplicación Estratégica</span>
+            </div>
+
+            <!-- Fila 1: Código -->
+            <div class="ladder-row expandable" data-category="code">
+                <div class="category-name">
+                    <span class="category-icon" style="background: rgba(27,58,92,0.08); color: var(--deep-blue);">⌨</span>
+                    Código (Lógica Determinista)
+                </div>
+                <div class="category-tools">Python, SQL, RPA (UiPath), Sistemas ERP</div>
+                <div class="category-example">Automatizar reportes regulatorios en 12 mercados de LATAM con precisión de cumplimiento del 100%.</div>
+                <div class="expandable-content">
+                    <div class="sl-grid">
+                        <div class="sl-card strength">
+                            <span class="sl-label">✓ Cuándo Supera al Resto</span>
+                            Precisión absoluta y repetición. Nunca se desvía de las reglas — perfecto para enrutamiento financiero u operativo estricto.
+                        </div>
+                        <div class="sl-card limitation">
+                            <span class="sl-label">✗ Limitación Clave</span>
+                            No puede adaptarse a excepciones. Si la forma de los datos cambia, el código se rompe.
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.8rem; color: #5A6B7C;"><strong>Más ejemplos estratégicos:</strong> Estandarizar la consolidación financiera para un portafolio de $3B USD en múltiples jurisdicciones. Ejecutar liquidaciones comerciales transfronterizas con latencia cero para una tesorería global.</p>
+                </div>
+            </div>
+
+            <!-- Fila 2: IA Individual -->
+            <div class="ladder-row expandable" data-category="individual-ai">
+                <div class="category-name">
+                    <span class="category-icon" style="background: rgba(242,90,66,0.08); color: var(--coral);">🤖</span>
+                    Uso Individual de IA
+                </div>
+                <div class="category-tools">Gemini Advanced, ChatGPT, GitHub Copilot</div>
+                <div class="category-example">Acelerar la síntesis de due diligence para equipos de M&A evaluando adquisiciones transfronterizas.</div>
+                <div class="expandable-content">
+                    <div class="sl-grid">
+                        <div class="sl-card strength">
+                            <span class="sl-label">✓ Cuándo Supera al Resto</span>
+                            Redacción personal y lluvia de ideas. Acelera el output de un trabajador individual al superar el problema de la "página en blanco."
+                        </div>
+                        <div class="sl-card limitation">
+                            <span class="sl-label">✗ Limitación Clave</span>
+                            Carece de supervisión sistémica y depende enteramente de la capacidad del individuo para hacer prompts y verificar.
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.8rem; color: #5A6B7C;"><strong>Más ejemplos estratégicos:</strong> Generar narrativas estratégicas basadas en escenarios para presentaciones a nivel de consejo. Modelar rápidamente respuestas competitivas a la disrupción del mercado para un equipo de liderazgo regional.</p>
+                </div>
+            </div>
+
+            <!-- Fila 3: Machine Learning -->
+            <div class="ladder-row expandable" data-category="ml">
+                <div class="category-name">
+                    <span class="category-icon" style="background: rgba(27,58,92,0.08); color: var(--deep-blue);">📊</span>
+                    Machine Learning (Patrón y Predicción)
+                </div>
+                <div class="category-tools">Scikit-learn, TensorFlow, XGBoost</div>
+                <div class="category-example">Pronosticar riesgo de portafolio en mercados volátiles de LATAM para informar decisiones de asignación de capital.</div>
+                <div class="expandable-content">
+                    <div class="sl-grid">
+                        <div class="sl-card strength">
+                            <span class="sl-label">✓ Cuándo Supera al Resto</span>
+                            Encontrar patrones ocultos en datos masivos. Maneja predicciones complejas de múltiples variables mucho mejor que la intuición humana.
+                        </div>
+                        <div class="sl-card limitation">
+                            <span class="sl-label">✗ Limitación Clave</span>
+                            Requiere cantidades masivas de datos limpios para entrenar y puede sufrir de sesgo histórico.
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.8rem; color: #5A6B7C;"><strong>Más ejemplos estratégicos:</strong> Identificar señales tempranas de fuga de clientes en una base de más de 10M de clientes para priorizar inversiones de retención. Modelar requisitos de capital regulatorio bajo múltiples escenarios de estrés para un banco sistémicamente importante.</p>
+                </div>
+            </div>
+
+            <!-- Fila 4: IA Enterprise -->
+            <div class="ladder-row expandable" data-category="enterprise-ai">
+                <div class="category-name">
+                    <span class="category-icon" style="background: rgba(242,90,66,0.08); color: var(--coral);">🏢</span>
+                    Uso Enterprise de IA
+                </div>
+                <div class="category-tools">RAG Custom, Palantir, Microsoft 365 Copilot</div>
+                <div class="category-example">Sintetizar cumplimiento ESG en 15 jurisdicciones para reportes regulatorios a nivel de consejo.</div>
+                <div class="expandable-content">
+                    <div class="sl-grid">
+                        <div class="sl-card strength">
+                            <span class="sl-label">✓ Cuándo Supera al Resto</span>
+                            Sintetizar datos corporativos en silos. Sobresale en conectar de forma segura datos de RRHH, Legal y Finanzas para generar insights a nivel de toda la empresa.
+                        </div>
+                        <div class="sl-card limitation">
+                            <span class="sl-label">✗ Limitación Clave</span>
+                            Altamente complejo de implementar de forma segura y requiere gobernanza estricta para prevenir fugas de datos.
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.8rem; color: #5A6B7C;"><strong>Más ejemplos estratégicos:</strong> Detectar patrones de fraude sistémico en una red de transacciones de $50B USD para proteger clientes institucionales. Orquestar estrategia de procurement de extremo a extremo en 3 continentes para un fabricante multinacional.</p>
+                </div>
+            </div>
+
+            <!-- Fila 5: Razonamiento Humano -->
+            <div class="ladder-row expandable" data-category="human-reasoning">
+                <div class="category-name">
+                    <span class="category-icon" style="background: rgba(27,58,92,0.08); color: var(--deep-blue);">🧠</span>
+                    Razonamiento Humano (Juicio y Empatía)
+                </div>
+                <div class="category-tools">Frameworks estratégicos, Inteligencia emocional, Brainstorming</div>
+                <div class="category-example">Navegar áreas grises regulatorias sin precedentes durante una fusión hostil transfronteriza.</div>
+                <div class="expandable-content">
+                    <div class="sl-grid">
+                        <div class="sl-card strength">
+                            <span class="sl-label">✓ Cuándo Supera al Resto</span>
+                            Ambigüedad, empatía y novedad sin precedentes. Solo los humanos pueden ejercer juicio ético, construir relaciones verdaderas y ser responsables.
+                        </div>
+                        <div class="sl-card limitation">
+                            <span class="sl-label">✗ Limitación Clave</span>
+                            Lento, costoso, propenso a la fatiga y difícil de escalar de manera consistente.
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.8rem; color: #5A6B7C;"><strong>Más ejemplos estratégicos:</strong> Reconstruir la confianza de los stakeholders después de una crisis reputacional importante relacionada con IA. Trazar la dirección estratégica cuando los modelos de negocio centrales enfrentan disrupción tecnológica de nuevos entrantes.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="reveal" style="margin-top: 2rem; text-align: center;">
+            <p style="font-size: 1.1rem; color: var(--deep-blue); font-weight: 600;">
+                El insight clave: <span style="color: var(--coral);">La IA es quizás la herramienta Cuadrada más poderosa jamás creada.</span><br>
+                Si la tecnología por sí sola fuera suficiente, la IA ya habría transformado todas las organizaciones del planeta. No lo ha hecho.
+            </p>
+        </div>
+    </section>
+
+    <!-- SQUIRCLE FRAMEWORK -->
+    <section class="section" id="squircle" style="background: var(--white); border-radius: var(--radius-xl); box-shadow: var(--shadow-md); border: 1px solid rgba(27,58,92,0.06); margin: 60px auto; padding: 80px 3rem; max-width: var(--max-width);">
+        <div class="section-header reveal">
+            <span class="section-label">El Framework SQUIRCLE®</span>
+            <h2 class="section-title">Una Nueva Forma de Pensar para un Nuevo Mundo</h2>
+            <p class="section-subtitle">
+                Tu mejor pensamiento construyó esta empresa. También puede ser el cuello de botella. Comprender la interacción entre el pensamiento Cuadrado y Circular es la clave de la adaptación a la IA.
+            </p>
+        </div>
+
+        <div class="squircle-interactive reveal">
+            <div class="squircle-visual">
+                <svg class="squircle-canvas" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="50" y="50" width="300" height="300" rx="20" class="sq-shape square" />
+                    <circle cx="200" cy="200" r="105" class="sq-shape circle" />
+                    <circle cx="200" cy="200" r="6" fill="#F25A42" />
+                </svg>
+                <div class="squircle-labels">
+                    <button class="squircle-label square-label" data-modal="square-modal">■ Cuadrado</button>
+                    <button class="squircle-label circle-label" data-modal="circle-modal">● Círculo</button>
+                </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <div>
+                    <h3 style="font-weight: 800; font-size: 1.5rem; color: var(--deep-blue); margin-bottom: 0.75rem;">El Cuadrado</h3>
+                    <p style="font-size: 0.95rem; color: #5A6B7C; line-height: 1.7;">
+                        Analítico, sistemático y orientado al control. Sobresale en el diseño de sistemas, la optimización de procesos y la implementación de tecnología. <strong>La IA es quizás la herramienta Cuadrada más poderosa jamás creada.</strong> Pero cuando el Cuadrado se vuelve dominante, atrapa el Círculo — privándonos de habilidades esenciales de adaptación y resolución de problemas.
+                    </p>
+                </div>
+                <div>
+                    <h3 style="font-weight: 800; font-size: 1.5rem; color: var(--coral); margin-bottom: 0.75rem;">El Círculo</h3>
+                    <p style="font-size: 0.95rem; color: #5A6B7C; line-height: 1.7;">
+                        Adaptativo, perceptivo y relacional. Navega la incertidumbre, siente la resistencia antes de que se vuelva visible y ayuda a las personas a pasar del cumplimiento a la participación genuina. <strong>Esto es lo que decide si tu transformación de IA tiene éxito o se estanca.</strong>
+                    </p>
+                </div>
+                <div>
+                    <h3 style="font-weight: 800; font-size: 1.5rem; color: var(--deep-blue); margin-bottom: 0.75rem;">El SQUIRCLE</h3>
+                    <p style="font-size: 0.95rem; color: #5A6B7C; line-height: 1.7;">
+                        Cuando el Cuadrado y el Círculo trabajan en sinergia, emerge una inteligencia más profunda — <strong>Inteligencia Intuitiva</strong>. Es la sinergia entre la razón y el instinto, posibilitada por la intuición que une a ambos. Es lo que permite a las organizaciones prosperar en la disrupción.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-grid" style="margin-top: 3rem;">
+            <div class="stat-card reveal">
+                <div class="stat-number"><span class="counter" data-target="80">0</span><span class="stat-suffix">/20</span></div>
+                <p class="stat-label">Preferencia típica de pensamiento: 80% Cuadrado vs 20% Círculo en la mayoría de las organizaciones</p>
+            </div>
+            <div class="stat-card reveal reveal-delay-1">
+                <div class="stat-number"><span class="counter" data-target="66">0</span><span class="stat-suffix">/34</span></div>
+                <p class="stat-label">El ratio de pensamiento más equilibrado observado en las estadísticas del test SQUIRCLE</p>
+            </div>
+            <div class="stat-card reveal reveal-delay-2">
+                <div class="stat-number"><span class="counter" data-target="100">0</span><span class="stat-suffix">%</span></div>
+                <p class="stat-label">Tasa de éxito del Juego SQUIRCLE — cada grupo eventualmente lo completa</p>
+            </div>
+        </div>
+
+        <div class="reveal" style="margin-top: 3rem;">
+            <h3 style="font-weight: 800; font-size: 1.4rem; color: var(--deep-blue); margin-bottom: 1.5rem; text-align: center;">La Prueba — Un Historial Comprobado</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+                <div style="background: var(--clear-ice); border-radius: var(--radius-md); padding: 1.8rem; border-top: 3px solid var(--coral);">
+                    <h4 style="font-weight: 700; margin-bottom: 0.5rem;">1M+ Adaptación a Escala</h4>
+                    <p style="font-size: 0.88rem; color: #5A6B7C;">L'Oréal — la empresa de belleza líder mundial — ahora produce más de un millón de piezas de contenido asistido por IA anualmente. El objetivo no es reemplazar a las personas. Es amplificar lo que las personas pueden hacer.</p>
+                </div>
+                <div style="background: var(--clear-ice); border-radius: var(--radius-md); padding: 1.8rem; border-top: 3px solid var(--coral);">
+                    <h4 style="font-weight: 700; margin-bottom: 0.5rem;">De Estrategia a Comportamiento</h4>
+                    <p style="font-size: 0.88rem; color: #5A6B7C;">Hemos ayudado repetidamente a organizaciones a cerrar la brecha que las iniciativas tecnológicas por sí solas rara vez resuelven — trabajando con equipos de liderazgo después de que los principales programas de transformación fueron diseñados, financiados y lanzados, pero luchaban por ganar tracción.</p>
+                </div>
+                <div style="background: var(--clear-ice); border-radius: var(--radius-md); padding: 1.8rem; border-top: 3px solid var(--coral);">
+                    <h4 style="font-weight: 700; margin-bottom: 0.5rem;">La Lección en los Titulares</h4>
+                    <p style="font-size: 0.88rem; color: #5A6B7C;">Las organizaciones siguen descubriendo que la IA puede generar outputs a una velocidad extraordinaria — mientras que los errores, riesgos y consecuencias no deseadas emergen cuando el juicio humano, la confianza y la supervisión no evolucionan junto con la tecnología.</p>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 2rem; font-weight: 600; color: var(--deep-blue); font-size: 1.1rem;">
+                Terminamos lo que otros empiezan. Diseñamos tecnología que perdura.
+            </p>
+        </div>
+    </section>
+
+    <!-- ENFOQUE -->
+    <section class="section" id="enfoque">
+        <div class="section-header reveal">
+            <span class="section-label">El Enfoque</span>
+            <h2 class="section-title">No Instalamos Herramientas y Nos Vamos</h2>
+            <p class="section-subtitle">
+                Construimos organizaciones que pueden evolucionar con ellas.
+            </p>
+        </div>
+
+        <div class="approach-steps">
+            <div class="step-card reveal">
+                <div class="step-number">01</div>
+                <h4 class="step-title">Diagnostica el Sistema, No el Flujo de Trabajo</h4>
+                <p class="step-description">Cada flujo de trabajo existe dentro de un sistema humano de relaciones, incentivos, suposiciones, miedos y hábitos. Antes de optimizar procesos, identificamos las fuerzas invisibles que moldean el comportamiento.</p>
+            </div>
+            <div class="step-card reveal reveal-delay-1">
+                <div class="step-number">02</div>
+                <h4 class="step-title">Trata la Resistencia como Inteligencia</h4>
+                <p class="step-description">La resistencia a la IA rara vez es irracional. A menudo revela preocupaciones, limitaciones y realidades que el liderazgo aún no puede ver. Transformamos la resistencia de un obstáculo en una fuente de insight — convirtiendo el miedo en participación y el escepticismo en apropiación.</p>
+            </div>
+            <div class="step-card reveal reveal-delay-2">
+                <div class="step-number">03</div>
+                <h4 class="step-title">Construye Capacidad Adaptativa, No Dependencia</h4>
+                <p class="step-description">Las herramientas cambian. Las plataformas evolucionan. El avance de hoy se convierte en la línea base de mañana. Ayudamos a las organizaciones a desarrollar capacidades que perduran: comodidad con la ambigüedad, aprendizaje continuo, juicio sólido y equipos autoorganizados.</p>
+            </div>
+            <div class="step-card reveal reveal-delay-3">
+                <div class="step-number">04</div>
+                <h4 class="step-title">Empieza Donde Empieza el Cambio: Liderazgo</h4>
+                <p class="step-description">La adaptación no puede ser ordenada. Debe ser modelada. Equipamos a los líderes para navegar la incertidumbre, construir confianza y encarnar los comportamientos que esperan de los demás antes de pedirle a la organización que los siga.</p>
+            </div>
+        </div>
+
+        <div class="reveal" style="text-align: center; margin-top: 3rem;">
+            <h3 class="thrive-disruption">
+                THRIVE IN DISRUPTION®
+            </h3>
+            <p style="font-size: 1.1rem; color: #5A6B7C; margin-top: 0.75rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+                No puedes controlar tu camino en un mundo de cambio constante. Solo puedes adaptarte a través de él.
+            </p>
+        </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section class="section" id="conectar">
+        <div class="cta-section reveal">
+            <div class="cta-content">
+                <h3 class="cta-title">La Transformación Que Tu Consejo Está Pidiendo<br>No Es Una Actualización Tecnológica.</h3>
+                <p class="cta-subtitle">
+                    Es una evolución en la capacidad humana. La IA no está disminuyendo la importancia de la inteligencia humana. Está revelando lo que la inteligencia humana realmente es — y cuánto potencial sin explotar permanece dentro de tu organización.
+                </p>
+                <div class="cta-buttons">
+                    <a href="https://calendar.app.google/5mGHg5BamQ86j4HH9" target="_blank" rel="noopener" class="cta-btn primary">
+                        📅 Agenda una Sesión Estratégica
+                    </a>
+                    <a href="https://www.linkedin.com/in/lrlm/" target="_blank" rel="noopener" class="cta-btn secondary">
+                        🔗 Conecta en LinkedIn
+                    </a>
+                </div>
+                <p style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--warm-gray);">
+                    Comenta abajo con tus pensamientos — leo y respondo cada interacción.
+                </p>
+            </div>
+        </div>
+
+        <!-- Sección de Autor -->
+        <div class="author-section reveal">
+            <div class="author-avatar">LL</div>
+            <div class="author-info">
+                <h4>Luis Roberto Lopez Monterrubio</h4>
+                <p class="author-title">Asesor Ejecutivo y Managing Partner — Adaptación a la IA y Potencial Humano · The Human Company</p>
+                <a href="https://thehumancompany.com/ai-transformation/" target="_blank" rel="noopener" class="author-link">thehumancompany.com/ai-transformation/</a>
+                <p>
+                    Luis Monterrubio es un ejecutivo senior trilingüe (inglés/español/portugués) con un historial de 15 años impulsando crecimiento rentable y transformación estratégica en los entornos de servicios financieros y consultoría más exigentes de LATAM. Con más de 3,000M USD en portafolios de primas administradas y negociaciones transfronterizas, ha integrado excelencia operativa mientras navega complejos paisajes regulatorios. Luis aporta dominio comprobado de la adopción y escalamiento responsable de IA — asegurando que las iniciativas de IA no solo sean innovadoras, sino también éticamente gobernadas, conscientes del riesgo y operativamente escalables. Entrega resultados donde el riesgo es alto y el margen de error es cero.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>© 2025 Luis Roberto Lopez Monterrubio · The Human Company · <a href="#hero">Volver arriba ↑</a></p>
+        <p style="margin-top: 4px;">SQUIRCLE® y THRIVE IN DISRUPTION® son marcas registradas. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Botón Volver Arriba -->
+    <button class="back-to-top" id="backToTop" aria-label="Volver arriba">↑</button>
+
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+
+    <!-- Modal Cuadrado -->
+    <div class="tooltip-modal" id="square-modal">
+        <button class="modal-close" data-close="square-modal">✕</button>
+        <h3 style="font-weight: 800; font-size: 1.3rem; margin-bottom: 1rem; color: var(--deep-blue);">El Cuadrado ■</h3>
+        <p style="font-size: 0.95rem; color: #5A6B7C; line-height: 1.7; margin-bottom: 1rem;">
+            <strong>Analítico, sistemático y orientado al control.</strong> Sobresale en el diseño de sistemas, la optimización de procesos y la implementación de tecnología.
+        </p>
+        <p style="font-size: 0.9rem; color: #5A6B7C; line-height: 1.6;">
+            <strong>Fortalezas:</strong> Racional, confiable, estable, predecible, ordenado. Maestro de la lógica, la deducción y la inducción.<br><br>
+            <strong>Lado oscuro:</strong> Cuando domina, suprime la intuición, la creatividad y la capacidad de navegar la ambigüedad. Se convierte en una ideología que silencia el pensamiento crítico y creativo.
+        </p>
     </div>
+
+    <!-- Modal Círculo -->
+    <div class="tooltip-modal" id="circle-modal">
+        <button class="modal-close" data-close="circle-modal">✕</button>
+        <h3 style="font-weight: 800; font-size: 1.3rem; margin-bottom: 1rem; color: var(--coral);">El Círculo ●</h3>
+        <p style="font-size: 0.95rem; color: #5A6B7C; line-height: 1.7; margin-bottom: 1rem;">
+            <strong>Adaptativo, perceptivo y relacional.</strong> Navega la incertidumbre, siente la resistencia antes de que se vuelva visible y ayuda a las personas a pasar del cumplimiento a la participación genuina.
+        </p>
+        <p style="font-size: 0.9rem; color: #5A6B7C; line-height: 1.6;">
+            <strong>Fortalezas:</strong> Emergente, fluido, no lineal, inclusivo, adaptativo. Como la naturaleza — complejo, creativo, holístico e infinito.<br><br>
+            <strong>Lado oscuro:</strong> Puede percibirse como no estructurado, vago o poco práctico sin el anclaje del Cuadrado. Necesita al Cuadrado para traducir el insight en acción.
+        </p>
+    </div>
+
+    <script>
+        // ===== BARRA DE PROGRESO DE LECTURA =====
+        const readingProgress = document.getElementById('readingProgress');
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / scrollHeight) * 100;
+            readingProgress.style.width = progress + '%';
+        });
+
+        // ===== EFECTO SCROLL NAVBAR =====
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // ===== TOGGLE NAV MÓVIL =====
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('open');
+            });
+        });
+
+        // ===== OBSERVADOR DE INTERSECCIÓN PARA REVEAL =====
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // ===== ANIMACIÓN DE CONTADORES =====
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    const target = parseInt(counter.dataset.target);
+                    const duration = 2000;
+                    const startTime = performance.now();
+
+                    function updateCounter(currentTime) {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const eased = 1 - Math.pow(1 - progress, 3);
+                        counter.textContent = Math.round(eased * target);
+                        if (progress < 1) {
+                            requestAnimationFrame(updateCounter);
+                        } else {
+                            counter.textContent = target;
+                        }
+                    }
+                    requestAnimationFrame(updateCounter);
+                    counterObserver.unobserve(counter);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.counter').forEach(el => {
+            counterObserver.observe(el);
+        });
+
+        // ===== EXPANSIÓN DE FILAS DE LA ESCALERA =====
+        document.querySelectorAll('.ladder-row').forEach(row => {
+            row.addEventListener('click', function(e) {
+                if (e.target.closest('button') || e.target.closest('a')) return;
+                this.classList.toggle('active');
+            });
+
+            row.setAttribute('tabindex', '0');
+            row.setAttribute('role', 'button');
+            row.setAttribute('aria-expanded', 'false');
+
+            row.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    row.classList.toggle('active');
+                    row.setAttribute('aria-expanded', row.classList.contains('active'));
+                }
+            });
+        });
+
+        // ===== SISTEMA DE MODALES =====
+        const modalOverlay = document.getElementById('modalOverlay');
+        let activeModal = null;
+
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                activeModal = modal;
+                modal.classList.add('active');
+                modalOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal() {
+            if (activeModal) {
+                activeModal.classList.remove('active');
+                modalOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+                activeModal = null;
+            }
+        }
+
+        document.querySelectorAll('.squircle-label').forEach(label => {
+            label.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const modalId = this.dataset.modal;
+                if (modalId) openModal(modalId);
+            });
+        });
+
+        modalOverlay.addEventListener('click', closeModal);
+
+        document.querySelectorAll('.modal-close').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const modalId = this.dataset.close;
+                if (modalId) {
+                    document.getElementById(modalId).classList.remove('active');
+                    modalOverlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                    activeModal = null;
+                }
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // ===== VOLVER ARRIBA =====
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 600) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ===== ENLACE ACTIVO EN NAV =====
+        const sections = document.querySelectorAll('section[id]');
+        const navLinkElements = document.querySelectorAll('.nav-link');
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const currentId = entry.target.id;
+                    navLinkElements.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === '#' + currentId) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, { threshold: 0.3, rootMargin: '-80px 0px -40px 0px' });
+
+        sections.forEach(section => {
+            sectionObserver.observe(section);
+        });
+
+        // ===== PARALLAX ORBS HERO =====
+        const orbs = document.querySelectorAll('.hero-orb');
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            if (scrollY < window.innerHeight) {
+                orbs.forEach((orb, index) => {
+                    const speed = index === 0 ? 0.2 : -0.15;
+                    orb.style.transform = `translate(${scrollY * speed}px, ${scrollY * speed * 0.5}px)`;
+                });
+            }
+        });
+
+        // ===== SMOOTH SCROLL =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        console.log('%cSQUIRCLE® Framework — White Paper Interactivo', 'font-size: 24px; font-weight: 800; color: #1B3A5C;');
+        console.log('%cPor Luis Roberto Lopez Monterrubio · The Human Company', 'font-size: 14px; color: #F25A42;');
+        console.log('%cTHRIVE IN DISRUPTION®', 'font-size: 12px; color: #C4C4C4; letter-spacing: 2px;');
+    </script>
 </body>
 </html>
